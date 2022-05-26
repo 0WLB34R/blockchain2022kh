@@ -7,10 +7,25 @@ contract StructTest{
         string author;
         uint id;
         bool available;
+        uint quantity;
     }
 
     Book public book;
-    Book public book2 = Book("title", "ken", 2, false);
+    Book public book2 = Book("title", "ken", 2, false, 3);
+
+    mapping(uint => Book) bookLibrary;
+
+    function getBook(uint idBook) public view returns(bool,uint){
+        return (bookLibrary[idBook].available, bookLibrary[idBook].quantity);
+    }
+
+    function addBook(Book memory newBook)public{
+        bookLibrary[newBook.id]=newBook;
+    }
+
+    function borrowBook(uint idBook) public{
+        bookLibrary[idBook].quantity--;
+    }
 
     function setTitle(string memory title) public{
         book.title = title;
