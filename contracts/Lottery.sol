@@ -18,12 +18,21 @@ contract Lottery{
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
-    function pickWinner() public{
-        require(msg.sender == manager, "You are not authorized to pick a winner");
+    function pickWinner() public restrited{
+       
         //return random() % players.length;
 
         uint index = random() % players.length;
         payable(players[index]).transfer(address(this).balance);
         players = new address[](0);
+    }
+
+    modifier restrited(){
+        require(msg.sender == manager, "You are not authrized to pick a winner");
+        _;
+    }
+
+    function getPlayers() public view returns(address[] memory){
+        return players;
     }
 }
