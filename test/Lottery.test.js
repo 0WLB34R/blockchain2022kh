@@ -32,4 +32,13 @@ contract("Lottery", accounts => {
         assert.equal(3, players.length)
     })
 
+    it("requires a minimum amount of Ether to enter", async () =>{
+        try{
+        await instance.enter({from: accounts[0], value: web3.utils.toWei("1","ether")})
+        }catch (e){
+            assert.equal("Amount must be greater than 2 Ether",e.reason)
+        }
+
+    })
+
 })

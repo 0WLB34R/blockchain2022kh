@@ -10,7 +10,7 @@ contract Lottery{
     }
 
     function enter() public payable{
-        require(msg.value > 2 ether);
+        require(msg.value > 2 ether, "Amount must be greater than 2 Ether");
         players.push(msg.sender);
     }
 
