@@ -49,4 +49,22 @@ contract("Lottery", accounts => {
         }
     })
 
+    it("sends money to the winner and resets the player array", async () =>{
+
+        const initialBalanacePlayer = await web3.eth.getBalance(accounts[1])
+        await instance.enter({from: accounts[1],value: web3.utils.toWei("5","ether")})
+
+        const initialBalanceSmartContract = await web3.eth.getBalance(instance.address)
+
+        await instance.pickWinner({from: accounts[0]})
+
+        const finallBalanacePlayer = await web3.eth.getBalance(accounts[1])
+
+        const diff = finallBalanacePlayer-initialBalanceSmartContract
+
+        assert(diff > web3.utils.toWei("4.7","ether"))
+
+
+    })
+
 })
