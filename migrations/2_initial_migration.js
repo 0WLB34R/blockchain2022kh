@@ -1,5 +1,5 @@
-const Lottery = artifacts.require("Lottery");
+const Notes = artifacts.require("Notes");
 
 module.exports = function (deployer) {
-  deployer.deploy(Lottery);
+    deployer.deploy(Notes);
 };
