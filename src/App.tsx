@@ -10,6 +10,8 @@ function App() {
   const [manager,setManager]= useState<any>('')
   const [players,setPlayers]= useState<any>([])
   const [balance,setBalance]= useState<any>('')
+  const [value,setValue] = useState<any>('')
+  const [message, setMessage] = useState<any>('')
 
 
   useEffect(() => {
@@ -46,6 +48,21 @@ function App() {
     }
   }
 
+  const onEnter = async () =>{
+    //@ts-ignore
+    const Web3 = window.web3
+    const accounts = await Web3.eth.getAccounts()
+
+    setMessage("waiting on transaction success...")
+
+    await contract.methods.enter().send({
+      from:accounts[0],
+      value:Web3.utils.toWei(value,"ether")
+    })
+
+    setMessage("You've entered the game...")
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -57,6 +74,10 @@ function App() {
         <p>Players: {players.length}</p>
         <p>Balance: {balance}</p>
         <p>Manager: {manager}</p>
+        <p>Monto Minimo 2 ETH</p>
+        <input type="text" value={value} onChange={ (event) => {setValue(event.target.value)}}></input>
+        <button onClick={ () => {onEnter()}}>Enter</button>
+        <p>{message}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
