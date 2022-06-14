@@ -99,14 +99,14 @@ function App() {
         <p>
         Truffle, Firebase, React
         </p>
-        <button onClick={()=>connectWallet()}>Connect</button>
-        <button onClick={()=>onPickWinner()}>Pick Winner</button>
+        <button type="button" className="btn btn-warning" onClick={()=>connectWallet()}>Connect</button>
+        <button type="button"  className="btn btn-primary" onClick={()=>onPickWinner()}>Pick Winner</button>
         <p>Players: {players.length}</p>
         <p>Balance: {balance}</p>
         <p>Manager: {manager}</p>
         <p>Monto Minimo 2 ETH</p>
         <input type="text" value={value} onChange={ (event) => {setValue(event.target.value)}}></input>
-        <button onClick={ () => {onEnter()}}>Enter</button>
+        <button  className="btn btn-primary" onClick={ () => {onEnter()}}>Enter</button>
         <p>{message}</p>
         <a
           className="App-link"
