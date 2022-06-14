@@ -35,17 +35,30 @@ function App() {
       const contractDeployed = new Web3.eth.Contract(abi,address)
       console.log(contractDeployed.methods.getPlayers().call())
      
-      const players = await contractDeployed.methods.getPlayers().call();
-      setPlayers(players)
-
+      
+     
       const manager = await contractDeployed.methods.manager().call()
       setManager(manager)
-
+      const players = await contractDeployed.methods.getPlayers().call();
+      setPlayers(players)
       const balance = await Web3.eth.getBalance(contractDeployed.options.address)
       setBalance(balance)
+      
 
       setContract(contractDeployed)
     }
+  }
+
+  const loadBalance = async () =>{
+    //@ts-ignore
+    const Web3 = window.web3
+    const balance = await Web3.eth.getBalance(contract.options.address)
+      setBalance(balance)
+  }
+
+  const loadPlayers = async () =>{
+    const players = await contract.methods.getPlayers().call();
+      setPlayers(players)
   }
 
   const onEnter = async () =>{
@@ -61,6 +74,22 @@ function App() {
     })
 
     setMessage("You've entered the game...")
+    loadBalance()
+    loadPlayers()
+  }
+
+  const onPickWinner= async ()=>{
+    //@ts-ignore
+    const Web3 = window.web3
+    const accounts = await Web3.eth.getAccounts()
+    setMessage("And the winner is...")
+    await contract.methods.pickWinner().send({
+      from:accounts[0]
+    })
+
+    setMessage("A winner has been picked!")
+    loadBalance()
+    loadPlayers()
   }
 
   return (
@@ -71,6 +100,7 @@ function App() {
         Truffle, Firebase, React
         </p>
         <button onClick={()=>connectWallet()}>Connect</button>
+        <button onClick={()=>onPickWinner()}>Pick Winner</button>
         <p>Players: {players.length}</p>
         <p>Balance: {balance}</p>
         <p>Manager: {manager}</p>
