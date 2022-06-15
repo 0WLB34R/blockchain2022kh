@@ -97,7 +97,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-        Truffle, Firebase, React
+        Deployed in ganache
         </p>
         <button type="button" className="btn btn-warning" onClick={()=>connectWallet()}>Connect</button>
         <button type="button"  className="btn btn-primary" onClick={()=>onPickWinner()}>Pick Winner</button>

@@ -23,6 +23,9 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const HDWalletProvider = require("truffle-hdwallet-provider")
+const mnemonic = "hola"
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -46,6 +49,21 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
      },
+
+     rinkeby: {
+      provider: () => new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/9c9cd48ddaf94382a7e8cabe7f8b3f08'),
+      network_id: "4",
+      gas: 4500000,
+      gaspPrice: 1000000000
+     },
+     bscTestnet:{
+      provider: () => new HDWalletProvider(mnemonic,'https://data-seed-prebsc-1-s1.binance.org:8545'),
+      network_id: 97,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      networkCheckTimeout: 10000,
+      skipDryRun: true
+     }
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
