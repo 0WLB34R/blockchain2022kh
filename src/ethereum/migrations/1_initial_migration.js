@@ -1,5 +1,5 @@
-const Amazon = artifacts.require("Amazon");
+const TestAmazon = artifacts.require("TestAmazon");
 
 module.exports = function (deployer) {
-  deployer.deploy(Amazon);
+  deployer.deploy(TestAmazon);
 };
