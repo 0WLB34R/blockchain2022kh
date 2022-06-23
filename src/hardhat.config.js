@@ -18,4 +18,20 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.4",
+  networks:{
+    rinkeby:{
+      url:'https://eth-rinkeby.alchemyapi.io/v2/vrqXl8rTR2SEBAZ4IzuJo4kb7CSWGYgc',
+      accounts:['']
+    },
+    goerli:{
+      url:'https://eth-goerli.alchemyapi.io/v2/vrqXl8rTR2SEBAZ4IzuJo4kb7CSWGYgc',
+      accounts:['']
+    }
+  },
+  paths:{
+    sources:"./src/ethereum-hardhat/contracts",
+    tests:"./src/ethereum-hardhat/test",
+    cache:"./src/ethereum-hardhat/cache",
+    artifacts:"./src/ethereum-hardhat/artifacts",
+  }
 };
