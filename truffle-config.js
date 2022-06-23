@@ -24,7 +24,7 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 const HDWalletProvider = require("truffle-hdwallet-provider")
-const mnemonic = "hola"
+const mnemonic = ""
 
 module.exports = {
   /**
@@ -52,9 +52,7 @@ module.exports = {
 
      rinkeby: {
       provider: () => new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/9c9cd48ddaf94382a7e8cabe7f8b3f08'),
-      network_id: "4",
-      gas: 4500000,
-      gaspPrice: 1000000000
+      network_id: 4
      },
      bscTestnet:{
       provider: () => new HDWalletProvider(mnemonic,'https://data-seed-prebsc-1-s1.binance.org:8545'),
