@@ -25,15 +25,16 @@ function App() {
   const loadBlockChainData = async ()=> {
     //@ts-ignore
     const Web3 = window.web3
-    const networkData = contractLottery.networks['5777']
-    console.log("Network Data: ",networkData)
+   // const networkData = contractLottery.networks['5777']
+  //  console.log("Network Data: ",networkData)
 
-    if(networkData){
+  //  if(networkData){
       const abi = contractLottery.abi
-      const address = networkData.address
-      console.log('address: ', address)
-      const contractDeployed = new Web3.eth.Contract(abi,address)
-      console.log(contractDeployed.methods.getPlayers().call())
+    //  const address = networkData.address
+    //  console.log('address: ', address)
+    //  const contractDeployed = new Web3.eth.Contract(abi,address)
+      const contractDeployed = new Web3.eth.Contract(abi,'0x360a6c7f67E9135939A18D8275ba73c839170532')
+    //  console.log(contractDeployed.methods.getPlayers().call())
      
       
      
@@ -46,7 +47,7 @@ function App() {
       
 
       setContract(contractDeployed)
-    }
+    //}
   }
 
   const loadBalance = async () =>{
