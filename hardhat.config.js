@@ -26,7 +26,10 @@ module.exports = {
     goerli:{
       url:'https://eth-goerli.alchemyapi.io/v2/vrqXl8rTR2SEBAZ4IzuJo4kb7CSWGYgc',
       accounts:['']
-    }
+    },
+    bscTestnet:{
+      url:'https://data-seed-prebsc-1-s1.binance.org:8545',
+      accounts:{mneumonic:''}
   },
   paths:{
     sources:"./src/ethereum-hardhat/contracts",
@@ -34,4 +37,5 @@ module.exports = {
     cache:"./src/ethereum-hardhat/cache",
     artifacts:"./src/ethereum-hardhat/artifacts",
   }
-};
+}
+}
