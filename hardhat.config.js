@@ -30,6 +30,15 @@ module.exports = {
     bscTestnet:{
       url:'https://data-seed-prebsc-1-s1.binance.org:8545',
       accounts:{mneumonic:''}
+    },
+    bsc: {
+      url: 'https://bsc-dataseed.binance.org',
+      chainId: 56,
+      accounts: {
+        mnemonic: mnemonic
+      }
+    }
+
   },
   paths:{
     sources:"./src/ethereum-hardhat/contracts",
@@ -37,5 +46,4 @@ module.exports = {
     cache:"./src/ethereum-hardhat/cache",
     artifacts:"./src/ethereum-hardhat/artifacts",
   }
-}
 }
