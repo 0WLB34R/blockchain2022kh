@@ -19,7 +19,42 @@ contract ERC20 is IERC20, IERC20Metadata {
 
     }
 
+   //  event Transfer(address indexed from, address indexed to, uint256 value);
+   // event Approval(address owner, address spender, uint256 value);
+    
+    function totalSupply() public view override return(uint256){
+        return _totalSupply;
+    }
 
+    function balanceOf(address account) public view override returns(uint256){
+        return _balance[account];
+    }
+
+   function transfer(address to, uint256 amount) public override returns(bool){
+       address owner = msg.sender;
+       _transfer(owner, to, amount);
+       return true;
+   }
+
+   function allowance(address owner, address spender) public view  override returns(uint256){
+       return _allowance[owner, [spender]];
+   }
+
+    function approve(address spender, uint256 amount) public override returns(bool){
+        address owner = msg.sender;
+        _approve(owner, spender, amount);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) public override returns(bool){
+        address spender = msg.sender;
+        _spendAllowance(from, to, amount);
+        _transfer(from, to, amount)
+        return true;
+    }
+    
+
+    
     function name() public view override returns(string memory){
         returns _name;
     } 
@@ -31,3 +66,5 @@ contract ERC20 is IERC20, IERC20Metadata {
     function decimals() public view override returns(uint8){
         returns 18;
     } 
+    
+}
