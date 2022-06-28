@@ -1,15 +1,35 @@
 // SPDX-Licence-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-interface IERC20 {
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address owner, address spender, uint256 value);
+import "./IERC20.sol"
+import "./IERC20Metadata.sol"
+
+contract ERC20 is IERC20, IERC20Metadata {
+    mapping(address => uint256) private _balance;
+    mapping(address => mapping(address => uint256)) private _allowance;
+
+    uint256 private _totalSupply;
+
+    string private _name;
+    string private _symbol;
+
+    constructor(string memory name, string memory symbol){
+        _name = name;
+        _symbol = symbol;
+
+    }
+
     
-    function totalSupply() external view return(uint256);
-    function balanceOf(address account) external view returns(uint256);
-    function transfer(address to, uint256 amount) external returns(bool);
-    function allowance(address owner, address spender) external view  returns(uint256);
-    function approve(address spender, uint256 amount) external returns(bool);
-    function transferFrom(address from, address to, uint256 amount) external returns(bool);
+    function name() public view override returns(string memory){
+        returns _name;
+    } 
+
+    function symbol() public view override returns(string memory){
+        returns _symbol;
+    } 
+
+    function decimals() public view override returns(uint8){
+        returns 18;
+    } 
     
 }
