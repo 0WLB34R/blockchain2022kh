@@ -6,7 +6,7 @@ import "./IERC20Metadata.sol"
 
 contract ERC20 is IERC20, IERC20Metadata {
     mapping(address => uint256) private _balance;
-    mapping(address => mapping(address => uint256)) private _allowance;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
 
@@ -19,8 +19,8 @@ contract ERC20 is IERC20, IERC20Metadata {
 
     }
 
-   //  event Transfer(address indexed from, address indexed to, uint256 value);
-   // event Approval(address owner, address spender, uint256 value);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address owner, address spender, uint256 value);
     
     function totalSupply() public view override return(uint256){
         return _totalSupply;
@@ -37,7 +37,7 @@ contract ERC20 is IERC20, IERC20Metadata {
    }
 
    function allowance(address owner, address spender) public view  override returns(uint256){
-       return _allowance[owner, [spender]];
+       return _allowances[owner, [spender]];
    }
 
     function approve(address spender, uint256 amount) public override returns(bool){
@@ -53,8 +53,6 @@ contract ERC20 is IERC20, IERC20Metadata {
         return true;
     }
     
-
-    
     function name() public view override returns(string memory){
         returns _name;
     } 
@@ -66,5 +64,40 @@ contract ERC20 is IERC20, IERC20Metadata {
     function decimals() public view override returns(uint8){
         returns 18;
     } 
+
+    function _transfer(address from, address to, uint256 amount) internal{
+        require(from != address(0), "ERC20: transfer from the zero address.");
+        require(to != address(0), "ERC20: transfer to the zero address.");
+        uint256 fromBalance = _balance[from];
+        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance.");
+
+        unchecked{
+            _balance[from] = fromBalance - amount;
+        }
+            _balance[to] += amount;
+        emit Transfer(from, to, amount);
+    }
+
+    function _approve(address owner, address spender, uint256 amount) internal {
+        require(owner != address(0), "ERC20: approve from the zero address.");
+        require( spender != address(0), "ERC20: approve to the zero address.");
+
+        _allowances[owner][spender]= amount;
+
+        emit Approval(owner, spender, amount);
+    }
+
+    function _spendAllowance(address owner, address spender, uint256 amount) internal{
+        uint256 currentAllowance = allowance(owner, spender);
+
+        if(currentAllowance != type(uint256).max){
+            require(currentAllowance >= amount, "ERC20: Insufficient allowance");
+        }
+        unchecked{
+            _approve(owner, spender, currentAllowance-amount);
+        }
+    }
+
+    
     
 }
