@@ -3,107 +3,153 @@ import logo from './logo.svg';
 import './App.css';
 import { connectWallet, initialize } from './ethereum/web3';
 //import contractLottery from "./ethereum/abis/Lottery.json"
+import contractMain from "./ethereum/abis/Main.json";
 
 function App() {
 
   const [contract,setContract]= useState<any>('')
-  const [manager,setManager]= useState<any>('')
-  const [players,setPlayers]= useState<any>([])
-  const [balance,setBalance]= useState<any>('')
-  const [value,setValue] = useState<any>('')
+
+  const [address,setAddress] = useState<any>('')
   const [message, setMessage] = useState<any>('')
 
+  const [Add1,setAdd1] = useState<any>('')
+  const [TokQuan1,setTokQuan1] = useState<any>('')
+  const [EthQuant1,setEthQuan1] = useState<any>('')
 
-  // useEffect(() => {
-  //   //@ts-ignore
-  //   if(window.web3) {
-  //     initialize()
-  //     loadBlockChainData()
-  //   }
-  // },[])
+  const [Add2,setAdd2] = useState<any>('')
 
-  // const loadBlockChainData = async ()=> {
-  //   //@ts-ignore
-  //   const Web3 = window.web3
-  //  // const networkData = contractLottery.networks['5777']
-  // //  console.log("Network Data: ",networkData)
+  const [TokQuan4,setTokQuan4] = useState<any>('')
 
-  // //  if(networkData){
-  //     const abi = contractLottery.abi
-  //   //  const address = networkData.address
-  //   //  console.log('address: ', address)
-  //   //  const contractDeployed = new Web3.eth.Contract(abi,address)
-  //     const contractDeployed = new Web3.eth.Contract(abi,'0x360a6c7f67E9135939A18D8275ba73c839170532')
-  //   //  console.log(contractDeployed.methods.getPlayers().call())
-     
-      
-     
-  //     const manager = await contractDeployed.methods.manager().call()
-  //     setManager(manager)
-  //     const players = await contractDeployed.methods.getPlayers().call();
-  //     setPlayers(players)
-  //     const balance = await Web3.eth.getBalance(contractDeployed.options.address)
-  //     setBalance(balance)
-      
+  const [TokQuan6,setTokQuan6] = useState<any>('')
 
-  //     setContract(contractDeployed)
-  //   //}
-  // }
+  const [supply,setSupply] = useState<any>('')
 
-  // const loadBalance = async () =>{
-  //   //@ts-ignore
-  //   const Web3 = window.web3
-  //   const balance = await Web3.eth.getBalance(contract.options.address)
-  //     setBalance(balance)
-  // }
 
-  // const loadPlayers = async () =>{
-  //   const players = await contract.methods.getPlayers().call();
-  //     setPlayers(players)
-  // }
+  useEffect(() => {
+    //@ts-ignore
+    if(window.web3) {
+      initialize()
+      loadBlockChainData()
+    }
+  },[])
 
-  // const onEnter = async () =>{
-  //   //@ts-ignore
-  //   const Web3 = window.web3
-  //   const accounts = await Web3.eth.getAccounts()
+  const loadBlockChainData = async () => {
+    //@ts-ignore
+    const Web3 = window.web3
+    //const contractDeployed = new Web3.eth.Contract(contractMain,address)
+   // This is for testing
+    // const networkData = contractMain.networks['5777'];
+    // if(networkData){
+    //   const abi = contractMain.abi
+    //   const address = networkData.address;
 
-  //   setMessage("waiting on transaction success...")
+    //   const contractDeployed = new Web3.eth.Contract(abi, address);
+    //   setAddress(await contractDeployed.methods.getContractAddress().call())
+    //   setMessage("Bienvenido!")
+    //   setContract(contractDeployed)
+    // }
 
-  //   await contract.methods.enter().send({
-  //     from:accounts[0],
-  //     value:Web3.utils.toWei(value,"ether")
-  //   })
+    //This is for prod
+    const abi = contractMain.abi;
+      const contractDeployed = new Web3.eth.Contract(abi, '0x66d90C63B6fFE563ab5B330AC267BA4FD1A1FA37');
+      setAddress(await contractDeployed.methods.getContractAddress().call())
+      setMessage("Bienvenido!")
+      setContract(contractDeployed)
+    
+  }
 
-  //   setMessage("You've entered the game...")
-  //   loadBalance()
-  //   loadPlayers()
-  // }
+  const onBuyTokens = async () => {
+    // @ts-ignore
+    const Web3 = window.web3;
+    const accounts = await Web3.eth.getAccounts()
+    setMessage("Compra en progreso...")
+    await contract.methods.buyTokens(Add1,TokQuan1).send({
+      from:accounts[0],
+      value:Web3.utils.toWei(EthQuant1,"ether")
+    })
+    setMessage("Compra Exitosa!")
 
-  // const onPickWinner= async ()=>{
-  //   //@ts-ignore
-  //   const Web3 = window.web3
-  //   const accounts = await Web3.eth.getAccounts()
-  //   setMessage("And the winner is...")
-  //   await contract.methods.pickWinner().send({
-  //     from:accounts[0]
-  //   })
+  }
 
-  //   setMessage("A winner has been picked!")
-  //   loadBalance()
-  //   loadPlayers()
-  // }
+  const onGenerateTokens = async () => {
+    // @ts-ignore
+    const Web3 = window.web3;
+    const accounts = await Web3.eth.getAccounts()
+    setMessage("Creando más tokens...")
+    await contract.methods.generetaTokens(TokQuan4).send({
+      from:accounts[0],
+    })
+    setMessage("Se añadieron 0WB-Coins Exitosamente!")
+  }
+
+  const onGetSupply = async () => {
+    setMessage("Consiguiendo el balance de 0WB-Coins en total...")
+    setSupply(await contract.methods.getTotalSupply().call())
+    setMessage("Balance total obtenido")
+  }
+
+  const onGetAccountBalance = async () => {
+    setMessage("Consiguiendo el balance de la cuenta...")
+    
+    setMessage("El balance de esa cuenta es: "+await contract.methods.balanceAccount(Add2).call())
+  }
+
+  const onGetPrice = async () =>{
+    setMessage("El precio de "+TokQuan6+" 0WB-Coins es de "+await contract.methods.priceTokens(TokQuan6).call()/1000000000000000000+" ETH")
+  }
+
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header"> 
+      <h1>0WB Coin</h1>
+      <button className="btn btn-primary" onClick={()=>connectWallet()}>Connect</button>
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>UPB coin</h1>
+        {/*1.*/}
+        <p>{message}</p>
+        <h2>Comprar 0WB-Coin</h2>
+        <div className="form-group" >
+    
+        <input type="text" className="form-control" id="buyAdd" placeholder="Dirección de destino" value={Add1} onChange={ (event) => { setAdd1(event.target.value) } }/>
+        <input type="text" className="form-control" id="buyToken" placeholder="Tokens a comprar" value={TokQuan1} onChange={ (event) => { setTokQuan1(event.target.value) } }/>
+        <input type="text" className="form-control" id="buyToken" placeholder="Eth a pagar 1Toke=1Eth" value={EthQuant1} onChange={ (event) => { setEthQuan1(event.target.value) } }/>
+        </div>
+        <button type="button" className="btn btn-danger" onClick={()=>onBuyTokens()}>COMPRAR 0WB-Coin</button>
+        {/*2.*/}
+        <div>---------------------------------------------</div>
+        <h2>Balance de 0WB-Coin de un usuario</h2>
+        <div className="form-group" >
+        <input type="text" className="form-control" id="balanceAdd" placeholder="Dirección del usuario" value={Add2} onChange={ (event) => { setAdd2(event.target.value) } }/>
+        </div>
+        <button type="button" className="btn btn-danger" onClick={()=>onGetAccountBalance()}>BALANCE DE 0WB-COIN</button>
+        
+        {/*3.*/}
+        <div>---------------------------------------------</div>
+        <h2>Balance total de 0WB-Coin del Smart Contract: {supply}</h2>
+        <button type="button" className="btn btn-danger" onClick={()=>onGetSupply()}>BALANCE DE 0WB-COIN</button>
+        {/*4.*/}
+        <div>---------------------------------------------</div>
+        <h2>Añadir nuevos 0WB-Coins</h2>
+        <div className="form-group" >
+        <input type="text" className="form-control" id="balanceAdd" placeholder="Cantidad a aumentar" value={TokQuan4} onChange={ (event) => { setTokQuan4(event.target.value) } }></input>
+        </div>
+        <button type="button" className="btn btn-danger"  onClick={()=>onGenerateTokens()}>INCREMENTAR 0WB-COINS</button>
+        {/*5.*/}
+        <div>---------------------------------------------</div>
+        <h2>Dirección del Smart Contract en RINKEBY</h2>
+        <h4>{address}</h4>
+        {/*6.*/}
+        <div>---------------------------------------------</div>
+        <h2>Calcular precio de 0WB-Coins en ETH</h2>
+        <div className="form-group" >
+        <input type="text" className="form-control" id="balanceAdd" placeholder="Cantidad de 0WB-Coins" value={TokQuan6} onChange={ (event) => { setTokQuan6(event.target.value) } }></input>
+        </div>
+        <button type="button" className="btn btn-danger" onClick={()=>onGetPrice()}>CALCULAR PRECIO</button>
+        
+        {/* <button type="button" className="btn btn-primary" onClick={()=>onPickWinner()}>Pick Winner</button> */}
       </header>
     </div>
   );
-
-
-
 }
 
 export default App;

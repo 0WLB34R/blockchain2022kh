@@ -10,7 +10,7 @@ contract Main {
     address private contractAddress;
 
     constructor(){
-        _token = new ERC20("UPC Coin","UPB");
+        _token = new ERC20("0WB-Coin","0WB");
         owner = msg.sender;
         contractAddress = address(this);
     }
